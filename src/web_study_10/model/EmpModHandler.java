@@ -1,8 +1,7 @@
 package web_study_10.model;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.List;
+import java.io.InputStreamReader;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -12,20 +11,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
-import web_study_10.dto.Title;
-import web_study_10.service.TitleService;
+import web_study_10.dto.Employee;
+import web_study_10.service.EmployeeService;
 
-@WebServlet("/TitleListHandler")
-public class TitleListHandler extends HttpServlet {
-	
+@WebServlet("/EmpModHandler")
+public class EmpModHandler extends HttpServlet {
+
 	private static final long serialVersionUID = 1L;
 
-	private TitleService service;
+	private EmployeeService service;
 
 	public void init(ServletConfig config) throws ServletException {
-		service = new TitleService();
+		service = new EmployeeService();
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -40,29 +38,19 @@ public class TitleListHandler extends HttpServlet {
 
 	private void Process(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		
+
 		if (request.getMethod().equalsIgnoreCase("GET")) {
 			System.out.println("GET");
-			
-			List<Title> list = service.showTitles();
-			request.setAttribute("list", list);
-			request.getRequestDispatcher("titleList.jsp").forward(request, response);
-		
+
 		} else {
 			System.out.println("POST");
-			
-            List<Title> list = service.showTitles();
-            Gson gson = new Gson(); 
-            String result = gson.toJson(list, new TypeToken<List<Title>>(){}.getType());
-            System.out.println(result);
-                    
-            response.setContentType("application/json");
-            response.setStatus(HttpServletResponse.SC_ACCEPTED);
-            
-            PrintWriter pw = response.getWriter();
-            pw.print(result);
-            pw.flush();
-            
+
+			Gson gson = new Gson();
+			Employee newEmp = gson.fromJson(new InputStreamReader(request.getInputStream(), "UTF-8"), Employee.class);
+			System.out.println(newEmp);
+
+			int res = service.modifyEmp(newEmp);
+			response.getWriter().print(res);
 		}
 
 	}

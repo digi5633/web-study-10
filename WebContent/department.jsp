@@ -86,7 +86,6 @@
 				</li>
 				<br>
 				<li>
-
 					<button id="modify">수정</button> &nbsp;&nbsp;
 					<button id="delete">삭제</button> &nbsp;&nbsp;
 					<button id="list">목록</button>

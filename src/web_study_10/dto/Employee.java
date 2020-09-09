@@ -1,5 +1,7 @@
 package web_study_10.dto;
 
+import java.util.Date;
+
 public class Employee {
 
 	private int no;
@@ -8,6 +10,11 @@ public class Employee {
 	private Employee manager;
 	private int salary;
 	private Department dno;
+	private String email;
+	private String pass;
+	private Date regDate;
+	private String tel;
+	private String picUrl;
 
 	public Employee() {
 
@@ -17,13 +24,49 @@ public class Employee {
 		this.no = no;
 	}
 
-	public Employee(int no, String name, Title tno, Employee manager, int salary, Department dno) {
+	public Employee(int no, String name, Title tno, Employee manager, int salary, Department dno, String email,
+			Date regDate, String tel) {
+		super();
 		this.no = no;
 		this.name = name;
 		this.tno = tno;
 		this.manager = manager;
 		this.salary = salary;
 		this.dno = dno;
+		this.email = email;
+		this.regDate = regDate;
+		this.tel = tel;
+	}
+
+	public Employee(int no, String name, Title tno, Employee manager, int salary, Department dno, String email,
+			String pass, Date regDate, String tel) {
+		super();
+		this.no = no;
+		this.name = name;
+		this.tno = tno;
+		this.manager = manager;
+		this.salary = salary;
+		this.dno = dno;
+		this.email = email;
+		this.pass = pass;
+		this.regDate = regDate;
+		this.tel = tel;
+	}
+
+	public Employee(int no, String name, Title tno, Employee manager, int salary, Department dno, String email,
+			String pass, Date regDate, String tel, String picurl) {
+		super();
+		this.no = no;
+		this.name = name;
+		this.tno = tno;
+		this.manager = manager;
+		this.salary = salary;
+		this.dno = dno;
+		this.email = email;
+		this.pass = pass;
+		this.regDate = regDate;
+		this.tel = tel;
+		this.picUrl = picurl;
 	}
 
 	public int getNo() {
@@ -74,32 +117,50 @@ public class Employee {
 		this.dno = dno;
 	}
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + no;
-		return result;
+	public String getEmail() {
+		return email;
 	}
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Employee other = (Employee) obj;
-		if (no != other.no)
-			return false;
-		return true;
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getPass() {
+		return pass;
+	}
+
+	public void setPass(String pass) {
+		this.pass = pass;
+	}
+
+	public Date getRegDate() {
+		return regDate;
+	}
+
+	public void setRegDate(Date regDate) {
+		this.regDate = regDate;
+	}
+
+	public String getTel() {
+		return tel;
+	}
+
+	public void setTel(String tel) {
+		this.tel = tel;
+	}
+
+	public String getPicurl() {
+		return picUrl;
+	}
+
+	public void setPicurl(String picurl) {
+		this.picUrl = picurl;
 	}
 
 	@Override
 	public String toString() {
-		return String.format("Employee [%s, %s, %s, %s, %s, %s]", no, name, tno, manager,
-				salary, dno);
+		return "Employee [no=" + no + ", name=" + name + ", tno=" + tno + ", manager=" + manager + ", salary=" + salary
+				+ ", dno=" + dno + ", email=" + email + ", regDate=" + regDate + ", tel=" + tel + "]";
 	}
 
 }
