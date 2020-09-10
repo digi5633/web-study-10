@@ -12,61 +12,58 @@
 			$(function() {
 				var status = false;
 				$('#modify').on("click", function() {
-					alert("수정");
+					/* alert("수정"); */
 					if(!status) {
-						$('input#name').attr("readonly", false);
-						$('select#selectTitle').attr("onFocus", false);
-						$('select#selectTitle').attr("onChange", false);
-						$('input#manager').attr("readonly", false);
-						$('select#selectEmp').attr("onFocus", false);
-						$('select#selectEmp').attr("onChange", false);
-						$('input#salary').attr("readonly", false);
-						$('select#selectDept').attr("onFocus", false);
-						$('select#selectDept').attr("onChange", false);
-						$('input#email').attr("readonly", false);
-						$('input#regDate').attr("readonly", false);
-						$('input#tel').attr("readonly", false);
-						$('input#pass').attr("readonly", false);
-						$('input#passChk').attr("readonly", false);
-						status = true;
-					} else {
+						if (confirm("수정 하시겠습니까?") == true) {	// 확인
+							$('input#name').attr("readonly", false);
+							$('select#selectTitle').attr("onFocus", false);
+							$('select#selectTitle').attr("onChange", false);
+							$('select#selectEmp').attr("onFocus", false);
+							$('select#selectEmp').attr("onChange", false);
+							$('input#salary').attr("readonly", false);
+							$('select#selectDept').attr("onFocus", false);
+							$('select#selectDept').attr("onChange", false);
+							$('input#email').attr("readonly", false);
+							$('input#regDate').attr("readonly", false);
+							$('input#tel').attr("readonly", false);
+							$('input#pass').attr("readonly", false);
+							$('input#passChk').attr("readonly", false);
+							status = true;
+						} else {	// 취소
+							return false;
+						}
 						
+					} else {
 						var Title = {
-								name:$("#selectTitle option:selected").text(),
+								no:$("#selectTitle").val(),
 						};
 						
 						var Dept = {
-								name:$("#selectDept option:selected").text(),
-						}
+								no:$("#selectDept").val(),
+						};
 						
 						var Emp2 = {
-								name:$("#selectEmp option:selected").text(),
-						}
+								no:$("#selectEmp").val(),
+						};
 
 						var emp = {
 								no:$('#no').val(),
 								name:$('#name').val(),
-								
 								tno:Title,
-								
 								manager:Emp2,
-
-								/* manager:$('#manager').val(), */
-								/* salary:$('#salary').val(),*/
-								
+								salary:$('#salary').val(),
 								dno:Dept,
-								
 								email:$('#email').val(),
 								regDate:$('#regDate').val(),
 								tel:$('#tel').val(),
-								/* pass:$('#pass').val() */
 								};
+
 						$.ajax({
 							type : "post",
 							url : "EmpModHandler",
 							data : JSON.stringify(emp),
 							success : function(data) {
-								alert(data);
+								/* alert(data); */
 								if (data == 1) {
 									alert("수정 되었습니다.")
 									window.location.href = "EmpListHandler";
@@ -75,79 +72,83 @@
 							}
 							
 						});
-						
+	
 					}
-					
+
 				});
-				
+
 				$('#delete').on("click", function() {
-					alert("삭제");
+					/* alert("삭제"); */
+					if (confirm("정말 삭제 하시겠습니까?") == true) {	// 확인
 					var delEmp = {no:$('#no').val()}
 					$.ajax({
 						type : "get",
 						url : "EmpDelHandler",
 						data : delEmp,
 						success : function(data) {
-							alert(data);	// 1이면 삭제 0이면 실패
+							/* alert(data);	// 1이면 삭제 0이면 실패 */
 							if (data == 1) {
 								alert("삭제 되었습니다.");
 								window.location.href = "EmpListHandler";
+
 							}
 							
 						}
 					
 					});
 					
+					} else {	// 취소
+						return false;
+					}
+					
 				});
-				
+
 				$('#list').on("click", function() {
-					location.href="EmpListHandler";
+					if (confirm("사원 목록으로 이동 하시겠습니까?") == true) {	// 확인
+						
+						location.href="EmpListHandler";
+					
+			    	} else {	// 취소
+			    		return false;
+			    	}
+					
 				});
 				
 			    $.post("TitleListHandler", function(json){
-			        setTimeout(function() {
-				        var dataLength = json.length;
-				        if ( dataLength >=1 ){
-				            var sCont = "";
-				            for ( i=0 ; i < dataLength ; i++){
-				                sCont += "<option value=" + json[i].no + ">" + json[i].name + "</>";
-				            }
-				            $("#selectTitle").append(sCont);   
-				        }
-						
-					});
-					
+			        var dataLength = json.length;
+			        if ( dataLength >=1 ){
+			            var sCont = "";
+			            for ( i=0 ; i < dataLength ; i++){
+			                sCont += "<option value=" + json[i].no + ">" + json[i].name + "</>";
+			            }
+			            $("#selectTitle").append(sCont);   
+			        }
+
 				});
 			    
 			    $.post("DeptListHandler", function(json){
-			        setTimeout(function() {
-				        var dataLength = json.length;
-				        if ( dataLength >=1 ){
-				            var sCont = "";
-				            for ( i=0 ; i < dataLength ; i++){
-				                sCont += "<option value=" + json[i].no + ">" + json[i].name + "</>";
-				            }
-				            $("#selectDept").append(sCont);   
-				        }
- 
-					});
-			        
+			        var dataLength = json.length;
+			        if ( dataLength >=1 ){
+			            var sCont = "";
+			            for ( i=0 ; i < dataLength ; i++){
+			                sCont += "<option value=" + json[i].no + ">" + json[i].name + "</>";
+			            }
+			            $("#selectDept").append(sCont);   
+			        }
+
 			    });
 			    
 			    $.post("EmpListHandler", function(json){
-			        setTimeout(function() {
-				        var dataLength = json.length;
-				        if ( dataLength >=1 ){
-				            var sCont = "";
-				            for ( i=0 ; i < dataLength ; i++){
-				                sCont += "<option value=" + json[i].no + ">" + json[i].name + "</>";
-				            }
-				            $("#selectEmp").append(sCont);   
-				        }
- 
-					});
-			        
-			    });
+			        var dataLength = json.length;
+			        if ( dataLength >=1 ){
+			            var sCont = "";
+			            for ( i=0 ; i < dataLength ; i++){
+			                sCont += "<option value=" + json[i].no + ">" + json[i].name + "</>";
+			            }
+			            $("#selectEmp").append(sCont);   
+			        }
+   
+		    	});
 
 			});
 		</script>
@@ -159,62 +160,62 @@
 			<ul>
 				<li>
 					<label for="no">사원 번호</label>
-					<input id="no" type="number" name="no" value="${emp.no}" readonly="readonly">
+					<div><input id="no" type="number" name="no" value="${emp.no}" readonly="readonly"></div>
 				</li>
 				<br>
 				<li>
 					<label for="name">사원 이름</label>
-					<input id="name" type="text" name="name" value="${emp.name}" readonly="readonly">
-				</li>
-				<br>
-				<li>
-					<label for="tname">직책</label>
-					<%-- <input id="tname" type="text" name="tname" value="${emp.tno.name}" readonly="readonly"> --%>
-					<select id="selectTitle" name="selectTitle"
-							onFocus='this.initialSelect = this.selectedIndex;'
-							onChange='this.selectedIndex = this.initialSelect;'>
-						<option value="${emp.tno.name}">${emp.tno.name}(${emp.tno.no})</option>
-					</select>
-				</li>
-				<br>
-				<li>
-					<label for="manager">직속상사</label>
-					<%-- <input id="manager" type="text" name="manager" value="${emp.manager.name}" readonly="readonly"> --%>
-					<select id="selectEmp" name="selectEmp"
-							onFocus='this.initialSelect = this.selectedIndex;'
-							onChange='this.selectedIndex = this.initialSelect;'>
-						<option value="${emp.manager.name}">${emp.manager.name}(${emp.manager.no})</option>
-					</select>
-				</li>
-				<br>
-				<li>
-					<label for="salary">급여</label>
-					<input id="salary" type="text" name="salary" value="<fmt:formatNumber value="${emp.salary}"/>" readonly="readonly">
+					<div><input id="name" type="text" name="name" value="${emp.name}" readonly="readonly"></div>
 				</li>
 				<br>
 				<li>
 					<label for="dname">부서</label>
 					<%-- <input id="dname" type="text" name="dname" value="${emp.dno.name}" readonly="readonly"> --%>
-					<select id="selectDept" name="selectDept"
+					<div><select id="selectDept" name="selectDept" style="width:178px;height:22px;"
 							onFocus='this.initialSelect = this.selectedIndex;'
 							onChange='this.selectedIndex = this.initialSelect;'>
-						<option value="${emp.dno.name}">${emp.dno.name}(${emp.dno.no})</option>
-					</select>
+						<option value="${emp.dno.no}">${emp.dno.name}(${emp.dno.no})</option>
+					</select></div>
+				</li>
+				<br>
+				<li>
+					<label for="manager">직속상사</label>
+					<%-- <input id="manager" type="text" name="manager" value="${emp.manager.name}" readonly="readonly"> --%>
+					<div><select id="selectEmp" name="selectEmp" style="width:178px;height:22px;"
+							onFocus='this.initialSelect = this.selectedIndex;'
+							onChange='this.selectedIndex = this.initialSelect;'>
+						<option value="${emp.manager.no}">${emp.manager.name}(${emp.manager.no})</option>
+					</select></div>
+				</li>
+				<br>
+				<li>
+					<label for="tname">직책</label>
+					<%-- <input id="tname" type="text" name="tname" value="${emp.tno.name}" readonly="readonly"> --%>
+					<div><select id="selectTitle" name="selectTitle" style="width:178px;height:22px;"
+							onFocus='this.initialSelect = this.selectedIndex;'
+							onChange='this.selectedIndex = this.initialSelect;'>
+						<option value="${emp.tno.no}">${emp.tno.name}(${emp.tno.no})</option>
+					</select></div>
+				</li>
+				<br>
+				<li>
+					<label for="salary">급여</label>
+					<div><input id="salary" type="text" name="salary" value="${emp.salary}" readonly="readonly"></div>
 				</li>
 				<br>
 				<li>
 					<label for="email">이메일</label>
-					<input id="email" type="text" name="email" value="${emp.email}" readonly="readonly">
+					<div><input id="email" type="text" name="email" value="${emp.email}" readonly="readonly"></div>
 				</li>
 				<br>
 				<li>
 					<label for="regDate">입사일</label>
-					<input id="regDate" type="date" name="regDate" value="<fmt:formatDate value="${emp.regDate}" pattern="yyyy-MM-dd"/>" readonly="readonly">
+					<div><input id="regDate" type="date" name="regDate" value="<fmt:formatDate value="${emp.regDate}" pattern="yyyy-MM-dd"/>" readonly="readonly" style="width:178px;height:22px;"></div>
 				</li>
 				<br>
 				<li>
 					<label for="tel">전화번호</label>
-					<input id="tel" type="text" name="tel" value="${emp.tel}" readonly="readonly">
+					<div><input id="tel" type="text" name="tel" value="${emp.tel}" readonly="readonly"></div>
 				</li>
 				<br>
 				<br>

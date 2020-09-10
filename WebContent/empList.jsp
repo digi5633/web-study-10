@@ -11,16 +11,20 @@
 		<script type="text/javascript">
 			$(function() {
 				$('#addEmp').on("click", function(){
-					alert("사원 추가 버튼 클릭");
-					$.ajax ({
-						type : "get",
-						url : "EmpAddHandler",
-						success : function(data) {
-							alert("data > " + data);
-							window.location.href="empAdd.jsp?nextNo=" + data;
-						}
+					if (confirm("사원을 추가 하시겠습니까?") == true){	// 확인
+						$.ajax ({
+							type : "get",
+							url : "EmpAddHandler",
+							success : function(data) {
+								/* alert("data > " + data); */
+								window.location.href="empAdd.jsp" + data;
+							}
+						
+						});
 					
-					});
+					} else {	// 취소
+						 return false;
+					}
 					
 				});
 				
@@ -53,7 +57,18 @@
 					});
 			        
 			    });
-			        
+
+				$('#index').on("click", function() {
+				    if (confirm("처음 화면으로 이동 하시겠습니까?") == true) {	// 확인
+				    	
+						location.href="IndexHandler";
+				    	
+				    } else {	// 취소
+				    	return false;
+				    }
+				    
+				});
+       
 			});
 		</script>
 	</head>
@@ -98,6 +113,7 @@
 			</tbody>
 		</table>
 		<br>
-		<button id="addEmp">사원 추가</button>
+		<button id="addEmp">사원 추가</button> &nbsp;&nbsp;
+		<button id="index">처음 화면으로</button>
 	</body>
 </html>

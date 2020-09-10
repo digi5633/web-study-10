@@ -22,6 +22,10 @@
 					});
 					
 				});
+				
+				$('#index').on("click", function() {
+					location.href="IndexHandler";
+				});
 			
 			});
 		</script>
@@ -46,6 +50,7 @@
 			</tbody>
 		</table>
 		<br>
-		<button id="addDept">부서 추가</button>
+		<button id="addDept">부서 추가</button> &nbsp;&nbsp;
+		<button id="index">처음 화면으로</button>
 	</body>
 </html>
